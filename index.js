@@ -16,5 +16,6 @@ TASK 2: Add a button to the HTML which reverses the sort order of the table.
 */
 
 /*
-TASK 3: Add a column to the table displaying the total number of points of the team if every game consists just of the first half.
+TASK 3: Write a function that validates the table by adding up all goalsPlus in the group and all goalsMinus in the group
+and outputs true if the difference is 0. Background the table green if it is valid or red if it is not.
 */
