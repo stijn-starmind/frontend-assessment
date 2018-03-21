@@ -30,11 +30,18 @@ function createTable(orderedData) {
 	$("#ranking").empty().append(templateString);
 }
 
-getOrderedData().then(createTable);
-
 /*
 TASK 2: Add a button to the HTML which reverses the sort order of the table.
 */
+let data = [];
+getOrderedData().then(ordered => {
+	data = ordered;
+	return data;
+}).then(createTable);
+
+window.reverseTable = () => {
+	createTable(data.reverse());
+};
 
 /*
 TASK 3: Add a column to the table displaying the total number of points of the team if every game consists just of the first half.
