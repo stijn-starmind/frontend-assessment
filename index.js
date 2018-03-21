@@ -2,6 +2,7 @@ import $ from "jquery";
 //import angular from "angular";
 //import lodash from "lodash";
 import orderBy from "lodash/orderBy";
+import sum from "lodash/sum";
 
 /*
 TASK 1: https://sport.api.swisstxt.ch/v1/rankings/8481?lang=de contains the ranking of group H in this Champions League
@@ -28,6 +29,12 @@ function createTable(orderedData) {
 	});
 	
 	$("#ranking").empty().append(templateString);
+	
+	if (tableIsValid(orderedData)) {
+		$("#ranking").css("background-color", "green");
+	} else {
+		$("#ranking").css("background-color", "red");
+	}
 }
 
 /*
@@ -47,3 +54,15 @@ window.reverseTable = () => {
 TASK 3: Write a function that validates the table by adding up all goalsPlus in the group and all goalsMinus in the group
 and outputs true if the difference is 0. Background the table green if it is valid or red if it is not.
 */
+
+function tableIsValid(data) {
+	let allGoalsPlus = data.map(rank => {
+		return rank.goalsPlus;
+	});
+	
+	let allGoalsMinus = data.map(rank => {
+		return rank.goalsMinus;
+	});
+	
+	return sum(allGoalsPlus) === sum(allGoalsMinus);
+}
