@@ -1,15 +1,36 @@
-//import $ from "jquery";
+import $ from "jquery";
 //import angular from "angular";
-//import _ from "lodash";
+//import lodash from "lodash";
+import orderBy from "lodash/orderBy";
 
 /*
-TASK 1: https://sport.api.swisstxt.ch/v1/eventItems?phaseIds=3404-195 provides you with all 12 matches from
-this year's Champions League group stage from group A. Fetch this JSON endpoint and process the data such that you
-can display the final ranking table with each team's name and the number of points.
-A victory counts 3 points, a draw 1 point and a loss 0 points.
-
-See final table at https://www.srf.ch/sport/resultcenter/results#football/champions-league/GroupPhase-1-4/Group-2-0
+TASK 1: https://sport.api.swisstxt.ch/v1/rankings/8481?lang=de contains the ranking of group H in this Champions League
+season's group stage. Display a table with the sorted ranking according to the GOALS SCORED. The team with the most goals scored should appear on top, the one with the least goals scored at the bottom. Each row should contain the team name
+and the goals scored column.
 */
+function getOrderedData() {
+	return fetch("https://sport.api.swisstxt.ch/v1/rankings/8481?lang=de")
+	.then(response => response.json())
+	.then(data => {
+		return orderBy(data.rankingItems, "goalPlus", "desc");
+	});
+}
+
+function createTable(orderedData) {
+	let templateString = ``;
+	
+	orderedData.forEach(rank => {
+		templateString +=
+			`<tr>
+				<td>${rank.competitor.name}</td>
+				<td>${rank.goalPlus}</td>
+			</tr>`;
+	});
+	
+	$("#ranking").empty().append(templateString);
+}
+
+getOrderedData().then(createTable);
 
 /*
 TASK 2: Add a button to the HTML which reverses the sort order of the table.
