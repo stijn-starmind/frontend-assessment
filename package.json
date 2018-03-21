@@ -11,5 +11,10 @@
   "license": "ISC",
   "devDependencies": {
     "parcel-bundler": "^1.6.2"
+  },
+  "dependencies": {
+    "angular": "^1.6.9",
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.5"
   }
 }
