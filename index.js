@@ -15,6 +15,14 @@ app.controller("mainController", ($scope) => {
 });
 
 app.directive("palindromeValidator", () => {
-	
+	return {
+		require: "ngModel",
+		link: (scope, element, attrs, ngModelController) => {
+		  ngModelController.$validators.palindrome = (modelValue) => {
+				let modelReversed = modelValue.split("").reverse().join("");
+				return modelValue === modelReversed;
+		  };
+		}
+	};
 });
 
