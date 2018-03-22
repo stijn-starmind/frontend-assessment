@@ -1,7 +1,7 @@
 <html ng-app="assessment">
 <body>
 	<div ng-controller="tableController">
-		<table>
+		<table ng-style="{ 'background-color' : tableIsValid() ? 'green' : 'red' }">
 			<tr ng-repeat="rank in ranking">
 				<td ng-bind="rank.competitor.name"></td>
 				<td ng-bind="rank.goalPlus"></td>
