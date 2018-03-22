@@ -20,6 +20,9 @@ app.controller("tableController", ($http, $scope) => {
 TASK 2: Add a button to the HTML which reverses the sort order of the table.
 */
 
+// see template
+
+
 /*
 TASK 3: Write a function that validates the table by adding up all goalsPlus in the group and all goalsMinus in the group
 and outputs true if the difference is 0. Background the table green if it is valid or red if it is not.
