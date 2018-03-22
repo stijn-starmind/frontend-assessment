@@ -7,8 +7,6 @@ export default new Vuex.Store({
   state: {
     data: undefined
   },
-  getters: {
-  },
   mutations: {
     update(state, json) {
       state.data = json;
