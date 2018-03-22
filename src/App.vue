@@ -1,60 +1,70 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+    <h1>Stijn's assessment</h1>
+    <div v-if="data">
+      <h2>{{data.title}}</h2>
+      <table :class="{valid: isValid, invalid: !isValid}">
+        <tbody>
+          <tr>
+            <th>Rank</th>
+            <th>Real rank</th>
+            <th>Team</th>
+            <th>Points</th>
+            <th>Goals scored</th>
+            <th>Goals against</th>
+          </tr>
+          <tr v-for="(item, index) in sortedTable">
+            <td>{{index + 1}}</td>
+            <td>{{item.rank}}</td>
+            <td>{{item.competitor.name}}</td>
+            <td>{{item.points}}</td>
+            <td>{{item.goalPlus}}</td>
+            <td>{{item.goalMinus}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div><button @click="ascending = !ascending">Reverse this sh##</button></div>
+    </div>
+    <div v-else>Loading...</div>
   </div>
 </template>
 
 <script>
+import _ from 'lodash';
+
 export default {
   name: 'app',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      ascending: false
     }
+  },
+  computed: {
+    data() {
+      return this.$store.state.data;
+    },
+    sortedTable() {
+      const sorted = _.sortBy(this.data.rankingItems, 'goalPlus');
+      if (!this.ascending) {
+        sorted.reverse()
+      }
+      return sorted;
+    },
+    isValid() {
+      return _.sum(this.sortedTable.map(item => item.goalPlus)) === _.sum(this.sortedTable.map(item => item.goalMinus));
+    }
+  },
+  created() {
+    this.$store.dispatch('load');
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
+<style scoped>
+  .valid {
+    background-color: lightgreen;
+  }
+  .invalid {
+    background-color: lightcoral;
+  }
 </style>
