@@ -2,6 +2,10 @@
 <body>
 	<div ng-controller="tableController">
 		<table>
+			<tr ng-repeat="rank in ranking">
+				<td ng-bind="rank.competitor.name"></td>
+				<td ng-bind="rank.goalPlus"></td>
+			</tr>
 		</table>
 	</div>
   <script src="./index.js"></script>

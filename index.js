@@ -1,6 +1,7 @@
 //import $ from "jquery";
 import angular from "angular";
 //import _ from "lodash";
+import orderBy from "lodash/orderBy";
 
 /*
 TASK 1: https://sport.api.swisstxt.ch/v1/rankings/8481?lang=de contains the ranking of group H in this Champions League
@@ -8,8 +9,10 @@ season's group stage. Display a table with the sorted ranking according to the G
 and the goals scored column.
 */
 const app = angular.module("assessment", []);
-app.controller("tableController", () => {
-	
+app.controller("tableController", ($http, $scope) => {
+	$http.get("https://sport.api.swisstxt.ch/v1/rankings/8481?lang=de").then(response => {
+		$scope.ranking = orderBy(response.data.rankingItems, "goalPlus", "desc");
+	});
 });
 
 
